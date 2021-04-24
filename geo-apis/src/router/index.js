@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import geo from '../views/geolocation.vue'
+import geocode from '../views/geocode.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/geo',
     name: 'geo',
     component: geo
+  },
+  {
+    path: '/geocode',
+    name: 'geocode',
+    component: geocode
   }
 ]
 
