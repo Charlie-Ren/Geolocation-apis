@@ -70,7 +70,6 @@ export default {
                 }
                 else //zero result
                 {
-                    console.log("ggs");
                     this.formatted_address="No matching info";
                     this.result={lat:"null", lng:"null"};
                 }
