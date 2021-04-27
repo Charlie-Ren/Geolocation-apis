@@ -29,20 +29,32 @@ export default {
     //autocomplete part.
     mounted()
     {
-        new google.maps.places.Autocomplete(
+        var autocomplete=new google.maps.places.Autocomplete(
             document.getElementById("autocomplete"),
             {
                 bounds: new google.maps.LatLngBounds(
                     new google.maps.LatLng(42.0266573,-93.64645159999999)
                 )
             }
-        )
+        );
+        //if we are using the autocomplete function.
+        google.maps.event.addListener(autocomplete,'place_changed',function()
+        {
+            var near_place=autocomplete.getPlace();
+            this.formatted_address=near_place.formatted_address;//get its formatted address
+            this.result={lat:near_place.geometry.location.lat(),lng:near_place.geometry.location.lng()};//get its lat and lng.
+            
+            console.log(near_place.formatted_address);
+            console.log("latitude:"+near_place.geometry.location.lat()+",longitude:"+near_place.geometry.location.lng());
+        });
+        
+
     },
     methods:{
         geoCodeFunction: function()
         { 
             //how we use geocode api here.
-            //using axios to send    HTTP request
+            //using axios to send HTTP request
             axios.get("https://maps.googleapis.com/maps/api/geocode/json",{
                 params:{
                     address: this.location,
@@ -54,11 +66,11 @@ export default {
                 if(response.data.status=="OK")
                 {
                     this.formatted_address=response.data.results[0].formatted_address;//get its formatted address
-                    this.result=response.data.results[0].geometry.location;//get its location info
-                    //U can also try to grab other infos.
+                    this.result={lat:response.data.results[0].geometry.location.lat, lng:response.data.results[0].geometry.location.lng};//get its location info
                 }
-                else
+                else //zero result
                 {
+                    console.log("ggs");
                     this.formatted_address="No matching info";
                     this.result={lat:"null", lng:"null"};
                 }
